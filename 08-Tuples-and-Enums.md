@@ -150,4 +150,6 @@ then it replaces every value referenced from order status with the underlying nu
 
 everything related to OrderStatus is stripped out
 
+A POJO could be used instead of an enum but that doesn't have the benefit of autocomplete
+
 ---
