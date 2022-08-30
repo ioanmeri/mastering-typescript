@@ -80,4 +80,36 @@ e.g. es6 supports arrow functions / const but es5 does not
 
 ## Strict
 
+### noImplicitAny
+
 defaults to true
+
+if I set `"strict": false` and `"noImplicitAny": true`, this function gives an error:
+
+Parameter 'thing' implicitly has an 'any' type.
+
+```
+function doThing(thing){
+  console.log(thing)
+}
+```
+
+### strictNullChecks
+
+Having this option it allows to do things like:
+
+```
+let users: string[] = ["asdfsd", "asdfa"];
+users = null;
+users = undefined
+```
+
+But if I set it back to true, `"strictNullChecks": true` I am gonna get an error:
+
+Type 'null' is not assignable to type 'string[]'
+
+We can have it null with strictNullChecks with this type:
+
+```
+let users: string[] | null = ["fdasfds", "asdf"]
+```
