@@ -252,3 +252,110 @@ class SuperPlayer extends Player {
 ```
 
 ---
+
+## Classes and Interfaces
+
+Interfaces describe the shape of some object. It can be an object literal but it can also be the shape of a class.
+
+```
+interface Colorful {
+  color: string;
+}
+
+interface Printable {
+  print(): void;
+}
+
+class Bike implements Colorful {
+  constructor(public color: string) {}
+}
+
+class Jacket implements Colorful, Printable {
+  constructor(public brand: string, public color: string) {}
+
+  print() {
+    console.log(`${this.color} ${this.brand} jacket`);
+  }
+}
+
+const bike1 = new Bike("red");
+
+const jacket1 = new Jacket("Prada", "black");
+
+```
+
+---
+
+## Abstract Classes
+
+We define methods that must be implemented by a child class
+
+The key difference between interface and abstract classes is that the the latter is an actual class with functionality. I can have a method in an abstract class.
+
+An abstract class is like a hybrid, it has functionality but it also describes the methods that must be implemented to extend this class.
+
+> We mark methods as required with the abstract keyword.
+
+```
+interface Colorful {
+  color: string;
+}
+
+interface Printable {
+  print(): void;
+}
+
+class Bike implements Colorful {
+  constructor(public color: string) {}
+}
+
+class Jacket implements Colorful, Printable {
+  constructor(public brand: string, public color: string) {}
+
+  print() {
+    console.log(`${this.color} ${this.brand} jacket`);
+  }
+}
+
+const bike1 = new Bike("red");
+const jacket1 = new Jacket("Prada", "black");
+
+abstract class Employee {
+  constructor(public first: string, public last: string) {}
+  abstract getPay(): number;
+  greet() {
+    console.log("HELLO!");
+  }
+}
+
+class FullTimeEmployee extends Employee {
+  constructor(first: string, last: string, private salary: number) {
+    super(first, last);
+  }
+  getPay(): number {
+    return this.salary;
+  }
+}
+
+class PartTimeEmployee extends Employee {
+  constructor(
+    first: string,
+    last: string,
+    private hourlyRate: number,
+    private hoursWorked: number
+  ) {
+    super(first, last);
+  }
+  getPay(): number {
+    return this.hourlyRate * this.hoursWorked;
+  }
+}
+
+const betty = new FullTimeEmployee("Betty", "White", 95000);
+console.log(betty.getPay());
+
+const bill = new PartTimeEmployee("Bill", "Billerson", 24, 1100);
+console.log(bill.getPay());
+```
+
+---
