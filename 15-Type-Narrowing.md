@@ -178,3 +178,116 @@ console.log(getRuntime({ title: "Spongebob", numEpisodes: 80, episodeDuration: 3
 ```
 
 ---
+
+## Instanceof Narrowing
+
+**instanceof** is a Javascript operator that allows us to check if one thing is an instance of another (remember prototypes?).
+
+This can help us narrow types when working with things like classes.
+
+```
+const printFullDate(date: Date | string){
+    if (date instanceof Date){
+        return date.toUTCString();
+    } else {
+        return new Date(string).toUTCString();
+    }
+}
+```
+
+It will work for Classes, arrays, dates etc (anything with **new** keyword)
+
+```
+new Array() // same as
+[]
+```
+
+```
+[1,2,3] instanceof Array // true
+[1,2,3] instanceof Date //false
+```
+
+**Example**
+
+```
+function printFullDate(date: string | Date){
+    if(date instanceof Date){
+        console.log(date.toUTCString());
+    } else {
+        console.log(new Date(date).toUTCString())
+    }
+}
+```
+
+Is entity instantiated from `User` or a `Company`
+
+```
+class User {
+    constructor(public username: string){};
+}
+
+class Company {
+    constructor(public name: string){}
+}
+
+function printName(entity: User | Company){
+    if(entity instanceof User){
+        entity // entity: User
+    } else {
+        entity // entity:  Company
+    }
+}
+```
+
+---
+
+## Type Predicates
+
+Typescript allows us to write custom functions that can narrow the type of a value. These functions have a very special return type called a type predicate.
+
+A predicate takes the form **parameterName is Type**.
+
+```
+//": pet is dog --> type predicate!"
+const isCat(pet: Cat | Dog): pet is Dog {
+    return (pet as Dog).bark !== undefined;
+}
+
+let pet = getAnimal();
+//pet gets passed to isCat above to narrow type
+if(isCat(pet)){
+    pet.meow();
+} else {
+    pet.bark();
+}
+```
+
+**Example**
+
+```
+interface Cat {
+    name: string;
+    numLives: number;
+}
+
+interface Dog {
+    name: string;
+    breed: string;
+}
+
+function isCat(animal: Cat | Dog): animal is Cat {
+    return (animal as Cat).numLives !== undefined
+}
+
+function makeNoise(animal: Cat | Dog): string {
+    if(isCat(animal)){
+        return "Meow"
+    } else {
+        // animal is Dog
+    }
+}
+```
+
+If we are narrowing the type all the type and try to determine is something is a user, admin etc we can create these special functions
+
+---
