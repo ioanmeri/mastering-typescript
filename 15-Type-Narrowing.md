@@ -291,3 +291,118 @@ function makeNoise(animal: Cat | Dog): string {
 If we are narrowing the type all the type and try to determine is something is a user, admin etc we can create these special functions
 
 ---
+
+## Discriminated unions
+
+A common pattern in Typescript involves creating a literal property that is common across multiple types.
+
+We can then narrow the type using that literal property
+
+```
+interface Circle {
+    kind: "circle";
+    radius: number;
+}
+
+interface Square {
+    kind: "square";
+    sideLength: number;
+}
+```
+
+**Example**
+
+All have the same properties, so we can add a discriminant (a property in the object setting in to a literal type).
+
+```
+interface Rooster {
+    name: string;
+    weight: number;
+    age: number;
+    kind: "rooster";
+}
+
+interface Cow {
+    name: string;
+    weight: number;
+    age: number;
+    kind: "cow";
+}
+
+interface Pig {
+    name: string;
+    weight: number;
+    age: number;
+    kind: "pig";
+}
+
+type FarmAnimal = Pig | Rooster | Cow;
+
+function getFarmAnimalSound(animal: FarmAnimal){
+    switch(animal.kind){
+        case("pig"):
+            return "Oink!";
+        case("cow"):
+            return "Mooo!"
+        case("rooster"):
+            return "Cockadoodledoo!";
+    }
+}
+
+const stevie: Rooster = {
+    name: "Stevie Chicks",
+    weight: 2,
+    age: 1.5,
+    kind: "rooster"
+}
+
+console.log(getFarmAnimalType(stevie));
+
+
+```
+
+---
+
+## Exhaustiveness Checks with Never
+
+If we get to the `default`, we are gonna get an error because we cannot have an animal (whatever the animal is) assigned to `never`
+
+```
+function getFarmAnimalSound(animal: FarmAnimal){
+    switch(animal.kind){
+        case("pig"):
+            return "Oink!";
+        case("cow"):
+            return "Mooo!"
+        case("rooster"):
+            return "Cockadoodledoo!";
+        default:
+            // We should never make it here, if we handled all cases correctly
+            // const shouldNeverGetHere: never = animal
+            // return shouldNeverGetHere;
+            const _exhaustiveCheck: never = animal;
+            return _exhaustiveCheck;
+    }
+}
+```
+
+```
+interface Sheep {
+    name: string;
+    weight: number;
+    age: number;
+    kind: "sheep";
+}
+
+type FarmAnimal = Pig | Rooster | Cow | Sheep;
+```
+
+We are getting an error because we are not handling the `kind: "sheep"` case
+
+**Exhaustiveness checks**
+
+```
+// Type 'Sheep' is not assignable to type 'never'
+```
+
+---
