@@ -65,3 +65,13 @@ function printUser(user: User) {
 }
 
 ```
+
+## Installing Types Separately
+
+Some libraries don't come with their own type declarations and we have to install the types separately. An example of it it's the `lodash` library:
+
+```
+npm install --save-dev @types/lodash
+```
+
+`--save-dev` because we don't need the types in production
