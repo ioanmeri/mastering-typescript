@@ -17,3 +17,26 @@ Even if there is an `export` in one file then that it is considered a **es modul
 We can write **es module syntax** (import / export) and TypeScript will (not complain) be able to compile this code to some other module syntax - **commonjs modules** (require, module.exports)
 
 ---
+
+## Changing Compilation Module
+
+JavaScript in the browser doesn't know about commonjs modules, exports keyword, require etc (browser js vs node js). The output of the `tsc` is not browser friendly.
+
+Can change the module of the `tsconfig.json` file to:
+
+```
+"module": "ES6"
+```
+
+that preserves the imports and exports from TS.
+
+Also, the `script` included in the `index.html` file should specify the module type to make sure browser understands es module syntax:
+
+```
+<script type="module" src="./dist/index.js"></script>
+
+```
+
+and also have a server running (lite-server)
+
+---
