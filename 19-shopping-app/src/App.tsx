@@ -2,10 +2,16 @@ import React, { useState } from "react";
 import ShoppingList from "./components/ShoppingList";
 import ShoppingListForm from "./components/ShoppingListForm";
 import Item from "./models/Item";
+import { v4 as getId } from "uuid";
 import "./App.css";
 
 function App() {
   const [items, setItems] = useState<Item[]>([]);
+  const addItem = (product: string, quantity: number) => {
+    console.log("MADE IT TO THE APP COMPONENT");
+    console.log(product);
+    setItems([...items, { id: getId(), product, quantity }]);
+  };
   // const items = [
   //   { id: 1, product: "Lemon", quantity: 3 },
   //   { id: 2, product: "Chicken Breast", quantity: 2 },
@@ -14,7 +20,7 @@ function App() {
   return (
     <div>
       <ShoppingList items={items} />
-      <ShoppingListForm />
+      <ShoppingListForm onAddItem={addItem} />
     </div>
   );
 }
